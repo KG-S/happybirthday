@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Aniversário!</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg, #3D1596, #425E97);
+    overflow-x:hidden;
+    padding:20px;
+}
+
+.container{
+    text-align:center;
+    background: rgba(255,255,255,0.95);
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    width:100%;
+    max-width:700px;
+    margin:20px auto;
+}
+
+h1{
+    font-size:3rem;
+    color:#151696;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:1.2rem;
+    color:#444;
+    margin-bottom:20px;
+}
+
+#countdown{
+    font-size:2rem;
+    font-weight:bold;
+    color:#151696;
+    margin:20px 0;
+}
+
+button{
+    background:#151696;
+    color:white;
+    border:none;
+    padding:15px 30px;
+    border-radius:50px;
+    cursor:pointer;
+    font-size:1rem;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+    background:#151696;
+}
+
+.hidden{
+    display:none;
+}
+
+#message{
+    margin-top:25px;
+    font-size:1.3rem;
+    color:#333;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+#birthdayPhoto{
+    width: min(250px, 70vw);
+    height: min(250px, 70vw);
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 20px;
+    border: 5px solid #000000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+#birthdayPhoto{
+    animation: aparecer 0.8s ease;
+}
+
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:scale(0.8);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@media (max-width: 768px){
+
+    .container{
+        padding:25px;
+    }
+
+    h1{
+        font-size:2rem;
+    }
+
+    p{
+        font-size:1rem;
+    }
+
+    #countdown{
+        font-size:1.5rem;
+    }
+
+    #message{
+        font-size:1.1rem;
+    }
+
+    button{
+        width:100%;
+        padding:15px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+    <h1>🎉 Feliz Aniversário! 🎂</h1>
+
+    <p>
+        Hoje é um dia muito especial!
+        Que sua vida seja repleta de alegria, saúde,
+        amor e muitas realizações.
+    </p>
+
+    <div id="countdown"></div>
+
+    <button id="surpriseBtn" class="hidden" onclick="showMessage()">
+        Abrir Surpresa 🎁
+    </button>
+
+    
+    <div id="message" class="hidden">
+    Hoje celebramos não apenas mais um ano da sua vida, mas todas as histórias, conquistas, aprendizados e momentos que fizeram de você a pessoa incrível que é.
+    Parabéns pelo seu dia! Que os melhores momentos do seu passado sejam apenas uma pequena amostra das grandes coisas que ainda estão por vir. 🎈✨
+    </div>
+
+    <img
+        id="birthdayPhoto"
+        class="hidden"
+        src="nicolas.jpeg"
+        alt="Foto do aniversariante">
+
+
+</div>
+
+<script>
+
+let seconds = 10;
+const countdown = document.getElementById("countdown");
+const surpriseBtn = document.getElementById("surpriseBtn");
+
+countdown.innerHTML = `Surpresa em ${seconds}s`;
+
+const timer = setInterval(() => {
+    seconds--;
+
+    if(seconds >= 0){
+        countdown.innerHTML = `Surpresa em ${seconds}s`;
+    }
+
+    if(seconds < 0){
+        clearInterval(timer);
+
+        countdown.innerHTML = "🎉 Chegou a hora da surpresa! 🎉";
+
+        
+        surpriseBtn.classList.remove("hidden");
+    }
+}, 1000);
+
+
+function showMessage(){
+    document.getElementById("message").classList.remove("hidden");
+    document.getElementById("birthdayPhoto").classList.remove("hidden");
+    startConfetti();
+}
+
+
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function startConfetti(){
+    for(let i = 0; i < 250; i++){
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            size: Math.random() * 8 + 2,
+            speed: Math.random() * 3 + 2,
+            color: `hsl(${Math.random()*360},100%,50%)`
+        });
+    }
+
+    animate();
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p => {
+        p.y += p.speed;
+
+        if(p.y > canvas.height){
+            p.y = -10;
+        }
+
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+    });
+
+    requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
