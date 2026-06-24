@@ -161,6 +161,7 @@ canvas{
     </button>
 
     
+    
     <div id="message" class="hidden">
     Hoje celebramos não apenas mais um ano da sua vida, mas todas as histórias, conquistas, aprendizados e momentos que fizeram de você a pessoa incrível que é.
     Parabéns pelo seu dia! Que os melhores momentos do seu passado sejam apenas uma pequena amostra das grandes coisas que ainda estão por vir. 🎈✨
@@ -177,7 +178,7 @@ canvas{
 
 <script>
 
-let seconds = 10;
+let seconds = 5;
 const countdown = document.getElementById("countdown");
 const surpriseBtn = document.getElementById("surpriseBtn");
 
@@ -204,6 +205,11 @@ const timer = setInterval(() => {
 function showMessage(){
     document.getElementById("message").classList.remove("hidden");
     document.getElementById("birthdayPhoto").classList.remove("hidden");
+
+    document.getElementById("surpriseBtn").classList.add("hidden");
+    
+    document.getElementById("musica").play();
+
     startConfetti();
 }
 
@@ -253,5 +259,6 @@ window.addEventListener('resize', () => {
 });
 </script>
 
+<audio id="musica" src="feliz-aniversario-kuduro.mp3"></audio>
 </body>
 </html>
